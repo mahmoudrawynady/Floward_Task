@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_native/core/app_const.dart';
 import 'package:flutter_native/data/model/weather_model.dart';
 import 'package:flutter_native/env/env.dart';
 import 'package:http/http.dart' as http;

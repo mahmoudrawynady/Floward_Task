@@ -7,12 +7,12 @@ abstract class NativeProfileDataRepository {
 }
 
 class NativeProfileDataRepositoryImpl implements NativeProfileDataRepository {
-  static const platform = MethodChannel('native_profile_channel');
+  static const _platform = MethodChannel('native_profile_channel');
 
   @override
   Future<Map<String, dynamic>?> getProfileDataFromNative() async {
     try {
-      final String result = await platform.invokeMethod('getProfile');
+      final String result = await _platform.invokeMethod('getProfile');
       return json.decode(result);
     } on PlatformException catch (e) {
       debugPrint('Failed to get profile data: ${e.message}');

@@ -1,25 +1,35 @@
-part of home_lib;
+library native_profile_lib;
 
-class _NativeProfileScreen extends StatefulWidget {
-  const _NativeProfileScreen();
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native/domain/usecase/fetch_native_profile_usecase.dart';
+import 'package:flutter_native/service_locator.dart';
+
+part 'native_profile_view_model.dart';
+
+class NativeProfileScreen extends StatefulWidget {
+  const NativeProfileScreen();
 
   @override
-  State<_NativeProfileScreen> createState() => _NativeProfileScreenState();
+  State<NativeProfileScreen> createState() => _NativeProfileScreenState();
 }
 
-class _NativeProfileScreenState extends State<_NativeProfileScreen> {
-  final _NativeProfileViewModel _viewModel = _NativeProfileViewModel();
+class _NativeProfileScreenState extends State<NativeProfileScreen> {
+  final _NativeProfileViewModel _nativeProfileDateVieWModel =
+      _NativeProfileViewModel();
 
   @override
   void initState() {
-    _viewModel.fetchWeather();
+    _nativeProfileDateVieWModel.fetchWeather();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Map<String, dynamic>?>(
-      valueListenable: _viewModel.profileDataNotifier,
+      valueListenable: _nativeProfileDateVieWModel.profileNativeDataNotifier,
       builder: (context, profileData, child) {
         if (profileData == null) {
           return const Center(child: CircularProgressIndicator());

@@ -1,19 +1,27 @@
-part of home_lib;
+library weather_lib;
 
-class _DashboardScreen extends StatefulWidget {
-  const _DashboardScreen({super.key});
+import 'package:flutter/widgets.dart';
+import 'package:flutter_native/data/model/weather_model.dart';
+import 'package:flutter_native/domain/usecase/fetch_weather_use_case.dart';
+import 'package:flutter_native/service_locator.dart';
+
+part 'weather_dashboard_view_model.dart';
+
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<_DashboardScreen> {
-  final String city = "Cairo";
-  final _WeatherDashboardViewModel viewModel = _WeatherDashboardViewModel();
+class _DashboardScreenState extends State<DashboardScreen> {
+  final String _city = "Cairo";
+  final _WeatherDashboardViewModel _weatherDashboardViewModel =
+      _WeatherDashboardViewModel();
 
   @override
   void initState() {
-    viewModel.fetchWeather();
+    _weatherDashboardViewModel.fetchWeather();
     super.initState();
   }
 
@@ -21,12 +29,12 @@ class _DashboardScreenState extends State<_DashboardScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: ValueListenableBuilder<WeatherModel?>(
-        valueListenable: viewModel.weatherNotifier,
+        valueListenable: _weatherDashboardViewModel.weatherDataNotifier,
         builder: (context, weather, child) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(city,
+              Text(_city,
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold)),
               Text(weather?.temperature ?? '',
@@ -42,7 +50,7 @@ class _DashboardScreenState extends State<_DashboardScreen> {
 
   @override
   void dispose() {
-    viewModel.weatherNotifier.dispose();
+    _weatherDashboardViewModel.weatherDataNotifier.dispose();
     super.dispose();
   }
 }
