@@ -1,6 +1,5 @@
 import 'package:flutter_native/data/model/weather_model.dart';
-import 'package:flutter_native/data/remote/weather_repository.dart';
-import 'package:flutter_native/presentation/home_screen.dart';
+import 'package:flutter_native/data/repository/weather_repository.dart';
 
 class WeatherDashboardUsecase {
   final WeatherDataRepository repository;

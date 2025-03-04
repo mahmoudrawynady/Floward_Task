@@ -1,14 +1,25 @@
 part of home_lib;
 
-class _NativeProfileScreen extends StatelessWidget {
-  final ValueNotifier<Map<String, dynamic>?> profileDataNotifier;
+class _NativeProfileScreen extends StatefulWidget {
+  const _NativeProfileScreen();
 
-  const _NativeProfileScreen({super.key, required this.profileDataNotifier});
+  @override
+  State<_NativeProfileScreen> createState() => _NativeProfileScreenState();
+}
+
+class _NativeProfileScreenState extends State<_NativeProfileScreen> {
+  final _NativeProfileViewModel _viewModel = _NativeProfileViewModel();
+
+  @override
+  void initState() {
+    _viewModel.fetchWeather();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Map<String, dynamic>?>(
-      valueListenable: profileDataNotifier,
+      valueListenable: _viewModel.profileDataNotifier,
       builder: (context, profileData, child) {
         if (profileData == null) {
           return const Center(child: CircularProgressIndicator());

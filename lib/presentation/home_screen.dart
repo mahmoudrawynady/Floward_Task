@@ -5,11 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native/data/model/weather_model.dart';
+import 'package:flutter_native/domain/usecase/fetch_native_profile_usecase.dart';
 import 'package:flutter_native/domain/usecase/fetch_weather_use_case.dart';
 import 'package:flutter_native/service_locator.dart';
 part 'native_profile_tab.dart';
 part 'weather_dashboard_tab.dart';
 part 'weather_dashboard_view_model.dart';
+part 'native_profile_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,23 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getProfileDataFromNative();
-  }
-
-  Future<void> _getProfileDataFromNative() async {
-    try {
-      final String result = await platform.invokeMethod('getProfile');
-      profileDataNotifier.value = json.decode(result);
-    } on PlatformException catch (e) {
-      debugPrint('Failed to get profile data: ${e.message}');
-    }
   }
 
   void _onItemTapped(int index) {
     selectedIndexNotifier.value = index;
-    if (index == 1) {
-      _getProfileDataFromNative();
-    }
   }
 
   @override
@@ -58,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, selectedIndex, child) {
           return selectedIndex == 0
               ? const _DashboardScreen()
-              : _NativeProfileScreen(profileDataNotifier: profileDataNotifier);
+              : const _NativeProfileScreen();
         },
       ),
       bottomNavigationBar: ValueListenableBuilder<int>(
