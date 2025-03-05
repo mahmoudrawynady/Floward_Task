@@ -2,6 +2,14 @@
 
 This Flutter project retrieves weather data and native profile data from an Android system using Jetpack Compose. It follows the **MVVM (Model-View-ViewModel) architecture** and implements **Dependency Injection** using `GetIt`.
 
+## Tech Stack
+- **Flutter**: 3.24.5
+- **Dart**: 3.5.4
+- **State Management**: MVVM Pattern with ValueNotifier
+- **Dependency Injection**: GetIt
+- **Environment Variables**: Envied
+- **Networking**: HTTP
+
 ## Features
 - Fetches weather data using OpenWeather API
 - Retrieves native profile data from Android using Jetpack Compose
