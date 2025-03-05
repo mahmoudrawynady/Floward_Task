@@ -1,29 +1,52 @@
-# Flutter App: Weather & Native Profile Data
+# Flutter Weather & Native Profile App
 
-This Flutter application fetches **weather data** and **native profile data** from Android using **Jetpack Compose** and integrates it into Flutter. The app follows the **MVVM architecture** and utilizes **dependency injection** with GetIt for efficient state management.
+This Flutter project retrieves weather data and native profile data from an Android system using Jetpack Compose. It follows the **MVVM (Model-View-ViewModel) architecture** and implements **Dependency Injection** using `GetIt`.
 
-## 🏗 Architecture
-The project is structured using the **MVVM (Model-View-ViewModel) pattern**, with a clear separation of concerns:
+## Features
+- Fetches **weather data** from OpenWeather API.
+- Retrieves **native profile data** from Android using Jetpack Compose.
+- Implements **MVVM architecture** for clear separation of concerns.
+- Uses **GetIt for Dependency Injection** to manage services.
+- Securely loads API keys using **Envied** package.
+
+## Project Architecture
+The project follows a clean architecture pattern with a structured folder system:
 
 ```
-📂 lib/
- ├── 📂 data/         # Data layer (repositories, models, API calls)
- │   ├── repository/  # Repository implementations
- │   ├── models/      # Data models
- │   └── sources/     # Remote & local data sources
- │
- ├── 📂 domain/       # Business logic (UseCases)
- │   ├── usecase/     # Contains UseCase classes
- │
- ├── 📂 presentation/ # UI layer (Widgets & ViewModels)
- │   ├── screens/     # Screens (Dashboard, Profile)
- │   ├── viewmodels/  # ViewModels for each screen
- │   └── widgets/     # UI Components
- │
- ├── 📂 core/         # Shared utilities (helpers, services, constants)
- ├── locator.dart     # Dependency injection setup (GetIt)
- ├── main.dart        # App entry point
+/lib
+│── core
+│   ├── app_const.dart
+│── data
+│   ├── model
+│   │   ├── weather_model.dart
+│   ├── repository
+│   │   ├── native_profile_repository.dart
+│   │   ├── weather_repository.dart
+│── domain
+│   ├── usecase
+│   │   ├── fetch_native_profile_usecase.dart
+│   │   ├── fetch_weather_use_case.dart
+│── env
+│   ├── env.dart
+│   ├── env.g.dart
+│── presentation
+│   ├── native_profile
+│   │   ├── native_profile_tab.dart
+│   │   ├── native_profile_view_model.dart
+│   ├── weather
+│   │   ├── weather_dashboard_tab.dart
+│   │   ├── weather_dashboard_view_model.dart
+│   ├── home_screen.dart
+│── main.dart
+│── service_locator.dart
 ```
+
+### Explanation of Layers
+- **Data Layer:** Contains models and repositories for data fetching.
+- **Domain Layer:** Contains use cases (business logic) that interact with repositories.
+- **Presentation Layer:** Contains UI and ViewModels for state management.
+- **Core:** Contains constants and global utilities.
+- **Env:** Manages API keys securely with `Envied`.
 
 ## 📦 Packages Used
 | Package  | Purpose  |
@@ -32,8 +55,9 @@ The project is structured using the **MVVM (Model-View-ViewModel) pattern**, wit
 | **Envied** | Secure environment variable management (API Keys) |
 | **HTTP** | API requests for weather data |
 
-## 🔗 Dependency Injection (GetIt)
-The app uses **GetIt** to manage dependencies efficiently. Services and repositories are registered in `locator.dart`:
+
+## Dependency Injection (GetIt)
+We use **GetIt** to manage dependencies:
 
 ```dart
 final GetIt getIt = GetIt.instance;
@@ -44,35 +68,40 @@ void setupLocator() {
 
   getIt.registerLazySingleton<WeatherDashboardUsecase>(
       () => WeatherDashboardUsecase(getIt<WeatherDataRepository>()));
-  
+
   getIt.registerLazySingleton<FetchNativeProfileDataUseCase>(
       () => FetchNativeProfileDataUseCase(getIt<NativeProfileDataRepository>()));
 }
 ```
 
-## 🌎 Environment Variables (API Keys)
-The **Envied** package is used to securely manage API keys.
+## API Key Management (Envied)
+API keys are securely stored using `Envied`:
 
-1. Create a `.env` file in the root directory:
-   ```plaintext
-   WEATHER_API_KEY=your_api_key_here
+```dart
+import 'package:envied/envied.dart';
+
+part 'env.g.dart';
+
+@Envied()
+abstract class Env {
+  @EnviedField(varName: 'WEATHER_API_KEY', obfuscate: true)
+  static String weatherApiKey = _Env.weatherApiKey;
+}
+```
+
+## Running the Project
+1. **Install Dependencies:**
+   ```sh
+   flutter pub get
    ```
-2. Create an `env.dart` file:
-   ```dart
-   import 'package:envied/envied.dart';
-   
-   part 'env.g.dart';
-   
-   @Envied()
-   abstract class Env {
-     @EnviedField(varName: 'WEATHER_API_KEY')
-     static const String weatherApiKey = _Env.weatherApiKey;
-   }
+2. **Generate Env Variables:**
+   ```sh
+   flutter pub run build_runner build --delete-conflicting-outputs
    ```
-3. Run `flutter pub run build_runner build` to generate the secure file.
+3. **Run the App:**
+   ```sh
+   flutter run
+   ```
 
-## 📡 Fetching Weather & Native Profile Data
-- **Weather Data**: Retrieved using OpenWeather API.
-- **Native Profile Data**: Fetched from Android (Jetpack Compose) via MethodChannel.
-
-This project efficiently bridges **native Android profile data** with Flutter while providing **weather updates** in an optimized and scalable manner. 🚀
+## Conclusion
+This project demonstrates a **structured MVVM architecture**, using **clean dependency injection**, **secure API management**, and **proper separation of concerns** for scalable Flutter applications.
