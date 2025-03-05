@@ -12,7 +12,7 @@ class WeatherDataRepositoryImpl implements WeatherDataRepository {
   @override
   Future<WeatherModel> fetchWeather() async {
     final url =
-        '${Constants.weatherBaseUrl}/q=${Constants.city}&appid=${Env.API_KEY}&units=metric';
+        '${Constants.weatherBaseUrl}?q=${Constants.city}&appid=${Env.API_KEY}&units=metric';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
