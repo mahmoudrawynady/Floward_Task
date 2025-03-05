@@ -119,6 +119,6 @@ This project follows a modular approach using **library**, **part**, and **part 
 ---
 **Author**: 
 - Mahmoud Rawy
-- MAhmoudrawy96@gmail.com
+- Mahmoudrawy96@gmail.com
 
 Feel free to contribute and improve this project! 🚀
