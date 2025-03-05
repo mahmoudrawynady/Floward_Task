@@ -80,6 +80,44 @@ void setupLocator() {
 }
 ```
 
+
+## Native Profile Data Handling
+The native profile data is retrieved in **MainActivity** using the `getProfile` method. This method sends static profile data, including the name, email, and profile picture path, from Android (using Jetpack Compose) to Flutter via a MethodChannel:
+
+```kotlin
+class MainActivity : FlutterActivity() {
+    private val CHANNEL = "native_profile_channel"
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getProfile" -> {
+                    val profile = JSONObject()
+                    profile.put("name", "John Doe")
+                    profile.put("email", "john.doe@example.com")
+                    val profileImagePath = saveProfileImageToInternalStorage(this)
+                    profile.put("profile_picture", profileImagePath)
+                    result.success(profile.toString())
+                }
+                else -> result.notImplemented()
+            }
+        }
+    }
+
+    fun saveProfileImageToInternalStorage(context: Context): String {
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.profile_picture)
+        val file = File(context.filesDir, "profile_picture.jpg")
+        
+        FileOutputStream(file).use { fos ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        }
+
+        return file.absolutePath
+    }
+}
+```
+
 ## API Key Management
 The project uses **Envied** to securely manage API keys. The weather API key is stored in `.env` and accessed via `env.dart`:
 
