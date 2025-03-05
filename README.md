@@ -1,16 +1,63 @@
-# flutter_native
+# Weather App
 
-A new Flutter project.
+A Flutter application that fetches weather data and displays it using clean architecture principles.
 
-## Getting Started
+## 📁 Project Structure
+The project follows a clean architecture pattern with three main layers:
 
-This project is a starting point for a Flutter application.
+- **Data Layer**: Handles API calls and data sources.
+- **Domain Layer**: Contains business logic and use cases.
+- **Presentation Layer**: Manages UI and state.
 
-A few resources to get you started if this is your first Flutter project:
+```
+lib/
+│── data/           # Data layer (API calls, repositories)
+│── domain/         # Domain layer (business logic, use cases)
+│── presentation/   # UI layer (screens, widgets)
+│── main.dart       # Entry point
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🛠 Packages Used
+- **[GetIt](https://pub.dev/packages/get_it)** - Dependency Injection
+- **[Envied](https://pub.dev/packages/envied)** - Environment variables management
+- **[HTTP](https://pub.dev/packages/http)** - API requests
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🔧 Setup Instructions
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/mahmoudrawynady/Floward_Task.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Floward_Task
+   ```
+3. Install dependencies:
+   ```sh
+   flutter pub get
+   ```
+4. Create a `.env` file for API keys:
+   ```sh
+   touch .env
+   ```
+   Add the following:
+   ```sh
+   WEATHER_API_KEY=your_api_key_here
+   ```
+5. Run the app:
+   ```sh
+   flutter run
+   ```
+
+## 🏗 Architecture Details
+- **Dependency Injection**: Implemented using `GetIt`.
+- **API Key Management**: Secured with `Envied`.
+- **Networking**: Handled via the `http` package.
+- **Import Management**: Using Dart's `part` technique to structure files efficiently.
+
+## 📌 Usage
+- Displays the current weather for a given location.
+- Fetches data from OpenWeather API.
+- Uses a modular and scalable architecture for maintainability.
+
+## 📜 License
+This project is open-source and available under the MIT License.
