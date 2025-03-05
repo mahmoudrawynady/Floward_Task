@@ -82,7 +82,7 @@ void setupLocator() {
 
 
 ## Native Profile Data Handling
-The native profile data is retrieved in **MainActivity** using the `getProfile` method. This method sends static profile data, including the name, email, and profile picture path, from Android (using Jetpack Compose) to Flutter via a MethodChannel:
+The native profile data is retrieved in **MainActivity** using the `getProfile` method. This method sends static profile data, including the name, email, and profile picture path, from Android to Flutter via a MethodChannel:
 
 ```kotlin
 class MainActivity : FlutterActivity() {
