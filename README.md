@@ -3,11 +3,13 @@
 This Flutter project retrieves weather data and native profile data from an Android system using Jetpack Compose. It follows the **MVVM (Model-View-ViewModel) architecture** and implements **Dependency Injection** using `GetIt`.
 
 ## Features
-- Fetches **weather data** from OpenWeather API.
-- Retrieves **native profile data** from Android using Jetpack Compose.
-- Implements **MVVM architecture** for clear separation of concerns.
-- Uses **GetIt for Dependency Injection** to manage services.
-- Securely loads API keys using **Envied** package.
+- Fetches weather data using OpenWeather API
+- Retrieves native profile data from Android using Jetpack Compose
+- Implements MVVM architecture
+- Uses Dependency Injection with GetIt
+- Manages API keys securely with Envied
+- Implements modular imports using `library`, `part`, and `part of` directives
+- Secret environment variables are ignored from Git for security
 
 ## Project Architecture
 The project follows a clean architecture pattern with a structured folder system:
@@ -56,8 +58,8 @@ The project follows a clean architecture pattern with a structured folder system
 | **HTTP** | API requests for weather data |
 
 
-## Dependency Injection (GetIt)
-We use **GetIt** to manage dependencies:
+## Dependency Injection
+This project uses **GetIt** for Dependency Injection. Services and use cases are registered in `service_locator.dart`:
 
 ```dart
 final GetIt getIt = GetIt.instance;
@@ -65,23 +67,15 @@ final GetIt getIt = GetIt.instance;
 void setupLocator() {
   getIt.registerLazySingleton<WeatherDataRepository>(() => WeatherDataRepositoryImpl());
   getIt.registerLazySingleton<NativeProfileDataRepository>(() => NativeProfileDataRepositoryImpl());
-
-  getIt.registerLazySingleton<WeatherDashboardUsecase>(
-      () => WeatherDashboardUsecase(getIt<WeatherDataRepository>()));
-
-  getIt.registerLazySingleton<FetchNativeProfileDataUseCase>(
-      () => FetchNativeProfileDataUseCase(getIt<NativeProfileDataRepository>()));
+  getIt.registerLazySingleton<WeatherDashboardUsecase>(() => WeatherDashboardUsecase(getIt<WeatherDataRepository>()));
+  getIt.registerLazySingleton<FetchNativeProfileDataUseCase>(() => FetchNativeProfileDataUseCase(getIt<NativeProfileDataRepository>()));
 }
 ```
 
-## API Key Management (Envied)
-API keys are securely stored using `Envied`:
+## API Key Management
+The project uses **Envied** to securely manage API keys. The weather API key is stored in `.env` and accessed via `env.dart`:
 
 ```dart
-import 'package:envied/envied.dart';
-
-part 'env.g.dart';
-
 @Envied()
 abstract class Env {
   @EnviedField(varName: 'WEATHER_API_KEY', obfuscate: true)
@@ -89,19 +83,39 @@ abstract class Env {
 }
 ```
 
+### Ignoring Secret Files
+The `.env` and generated `env.g.dart` files are ignored from Git using `.gitignore` to prevent exposing sensitive information.
+
+## Modular Imports
+This project follows a modular approach using **library**, **part**, and **part of** directives to split the code efficiently across different files. This ensures better maintainability and avoids circular dependencies.
+
 ## Running the Project
-1. **Install Dependencies:**
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo.git
+   cd your-repo
+   ```
+2. Install dependencies:
    ```sh
    flutter pub get
    ```
-2. **Generate Env Variables:**
+3. Add your API key to `.env`:
+   ```sh
+   WEATHER_API_KEY=your_api_key_here
+   ```
+4. Generate the env file:
    ```sh
    flutter pub run build_runner build --delete-conflicting-outputs
    ```
-3. **Run the App:**
+5. Run the project:
    ```sh
    flutter run
    ```
 
-## Conclusion
-This project demonstrates a **structured MVVM architecture**, using **clean dependency injection**, **secure API management**, and **proper separation of concerns** for scalable Flutter applications.
+
+---
+**Author**: 
+- Mahmoud Rawy
+- MAhmoudrawy96@gmail.com
+
+Feel free to contribute and improve this project! 🚀

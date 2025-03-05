@@ -1,6 +1,7 @@
 library home_lib;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native/core/app_const.dart';
 import 'package:flutter_native/presentation/native_profile/native_profile_tab.dart';
 import 'package:flutter_native/presentation/weather/weather_dashboard_tab.dart';
 
@@ -45,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard), label: 'Dashboard'),
+                  icon: Icon(Icons.dashboard), label:Constants.dashboard ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profile'),
+                  icon: Icon(Icons.person), label: Constants.profile),
             ],
             currentIndex: selectedIndex,
             onTap: _onItemTapped,

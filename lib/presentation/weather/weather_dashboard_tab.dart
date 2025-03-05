@@ -1,6 +1,7 @@
 library weather_lib;
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_native/core/app_const.dart';
 import 'package:flutter_native/data/model/weather_model.dart';
 import 'package:flutter_native/domain/usecase/fetch_weather_use_case.dart';
 import 'package:flutter_native/service_locator.dart';
@@ -15,7 +16,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final String _city = "Cairo";
   final _WeatherDashboardViewModel _weatherDashboardViewModel =
       _WeatherDashboardViewModel();
 
@@ -34,9 +34,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_city,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
+              const Text(Constants.city,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               Text(weather?.temperature ?? '',
                   style: const TextStyle(fontSize: 30)),
               Text(weather?.condition ?? '',
