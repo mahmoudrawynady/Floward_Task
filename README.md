@@ -99,13 +99,16 @@ This project follows a modular approach using **library**, **part**, and **part 
    ```sh
    flutter pub get
    ```
-3. Add your API key to `.env`:
+3. The API key already added to `.env` file, you can replace it with your own key using the line below bu no need:
    ```sh
-   WEATHER_API_KEY=your_api_key_here
+   API_KEY=your_api_key_here
    ```
 4. Generate the env file:
    ```sh
-   flutter pub run build_runner build --delete-conflicting-outputs
+   dart run build_runner clean
+   dart run build_runner build --delete-conflicting-outputs
+   or 
+   dart run build_runner build --define=envied_generator:envied=path=my_other.env
    ```
 5. Run the project:
    ```sh
